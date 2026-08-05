@@ -97,9 +97,24 @@ const VideoCard = ({
   const [playing, setPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(muted);
 
+  useEffect(() => {
+    const handleGlobalPlay = (e: CustomEvent<{ src: string }>) => {
+      if (e.detail && e.detail.src !== src && videoRef.current) {
+        videoRef.current.pause();
+        setPlaying(false);
+      }
+    };
+
+    window.addEventListener('cleannew-play-video' as any, handleGlobalPlay as any);
+    return () => {
+      window.removeEventListener('cleannew-play-video' as any, handleGlobalPlay as any);
+    };
+  }, [src]);
+
   const togglePlay = () => {
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
+      window.dispatchEvent(new CustomEvent('cleannew-play-video', { detail: { src } }));
       videoRef.current.muted = isMuted;
       videoRef.current.play().catch(() => {});
       setPlaying(true);
