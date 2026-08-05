@@ -393,9 +393,8 @@ export default function CleanNewLanding() {
 
       {/* ═══ 1 · NAVIGATION BAR ═══ */}
       <nav
-        className={scrolled ? 'nav-glass' : ''}
         style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+          position: 'absolute', top: 0, left: 0, right: 0, zIndex: 100,
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           padding: '20px 48px', background: 'transparent', transition: 'all .3s ease',
         }}
@@ -428,16 +427,16 @@ export default function CleanNewLanding() {
             style={{
               background: C.gradient,
               color: C.white,
-              padding: '12px 24px',
-              borderRadius: '30px',
+              padding: '9px 20px',
+              borderRadius: '20px',
               border: 'none',
               fontWeight: 600,
               cursor: 'pointer',
-              fontSize: '.9rem',
+              fontSize: '.82rem',
               boxShadow: C.accentGlow,
             }}
           >
-            Cotización Rápida
+            Cotizar
           </button>
 
           <div className="mob-nav-btn" style={{ display: 'none', cursor: 'pointer' }} onClick={() => setMenuOpen(!menuOpen)}>
