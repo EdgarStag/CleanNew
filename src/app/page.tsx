@@ -762,14 +762,20 @@ export default function CleanNewLanding() {
               position: 'relative',
               width: '100%',
               maxWidth: '960px',
-              height: 'auto',
+              height: '440px',
               margin: '0 auto',
-              background: 'transparent',
+              background: 'rgba(255,255,255,0.015)',
               borderRadius: '24px',
-              padding: '0',
+              border: `1px solid ${C.border}`,
+              padding: '10px',
+              overflow: 'hidden',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <ComposableMap projectionConfig={{ scale: 140 }}>
+            <ComposableMap projectionConfig={{ scale: 155, center: [0, 10] }} style={{ width: '100%', height: '100%' }}>
               <Geographies geography="/features.json">
                 {({ geographies }) =>
                   geographies.map((geo) => {
@@ -782,7 +788,7 @@ export default function CleanNewLanding() {
                       <Geography
                         key={geo.rsmKey}
                         geography={geo}
-                        fill={isHighlighted ? C.primary : "#1A1A1A"}
+                        fill={isHighlighted ? C.primary : "#1C1C1C"}
                         stroke={C.border}
                         strokeWidth={0.5}
                         style={{
