@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Droplets, Sun, Leaf, Sparkles, ShieldCheck, Award } from 'lucide-react';
+import { Droplets, Sun, Leaf, Sparkles, ShieldCheck, Award, Volume2, VolumeX } from 'lucide-react';
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 
 /* ─── CleanNew Brand Design Tokens ─── */
@@ -78,7 +78,7 @@ const VideoCard = ({
   title,
   subtitle,
   autoPlay = false,
-  muted = true,
+  muted = false,
   loop = false,
   className = '',
   objectPosition = 'center',
@@ -95,16 +95,25 @@ const VideoCard = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(autoPlay);
+  const [isMuted, setIsMuted] = useState(muted);
 
   const togglePlay = () => {
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
+      videoRef.current.muted = isMuted;
       videoRef.current.play().catch(() => {});
       setPlaying(true);
     } else {
       videoRef.current.pause();
       setPlaying(false);
     }
+  };
+
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
   };
 
   return (
@@ -126,12 +135,38 @@ const VideoCard = ({
         src={src}
         poster={poster}
         autoPlay={autoPlay}
-        muted={muted}
+        muted={isMuted}
         loop={loop}
         playsInline
         preload="metadata"
         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: objectPosition, display: 'block' }}
       />
+
+      {playing && (
+        <button
+          onClick={toggleMute}
+          aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            background: 'rgba(0,0,0,0.6)',
+            color: C.white,
+            border: `1px solid ${C.border}`,
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            backdropFilter: 'blur(4px)',
+          }}
+        >
+          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+        </button>
+      )}
 
       <button
         onClick={togglePlay}
@@ -762,7 +797,7 @@ export default function CleanNewLanding() {
                         transition: 'all 0.3s ease',
                       }}
                     >
-                      <span>{showAllVideos ? 'Ocultar Catálogo Adicional' : 'Ver Más Videos de Demostración (+12 videos)'}</span>
+                      <span>{showAllVideos ? 'Ocultar Catálogo Adicional' : 'Ver Más Videos de Demostración'}</span>
                       <span style={{ transform: showAllVideos ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s', display: 'inline-block' }}>▼</span>
                     </button>
                   </div>
