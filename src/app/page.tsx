@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Droplets, Sun, Leaf, Sparkles, ShieldCheck, Award } from 'lucide-react';
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 
 /* ─── CleanNew Brand Design Tokens ─── */
 const C = {
@@ -838,6 +838,38 @@ export default function CleanNewLanding() {
                   })
                 }
               </Geographies>
+
+              {/* Active Selected Country Marker Tag */}
+              {activeCountry && (() => {
+                const countryCoords: Record<string, [number, number]> = {
+                  'México': [-102.55, 23.63],
+                  'Estados Unidos': [-98.57, 39.82],
+                  'Brasil': [-51.92, -14.23],
+                  'Colombia': [-74.29, 4.57],
+                  'Argentina': [-63.61, -38.41],
+                  'España': [-3.74, 40.46],
+                  'Francia': [2.21, 46.22],
+                  'Andorra': [1.52, 42.50],
+                  'Arabia Saudita': [45.07, 23.88],
+                  'Emiratos Árabes': [53.84, 23.42],
+                  'Kuwait': [47.48, 29.31],
+                  'Angola': [17.87, -11.20],
+                };
+                const coords = countryCoords[activeCountry];
+                if (!coords) return null;
+
+                return (
+                  <Marker coordinates={coords}>
+                    <g transform="translate(0, 0)">
+                      <circle r="6" fill="#34D399" stroke="#ffffff" strokeWidth="2" />
+                      <circle r="12" fill="none" stroke="#34D399" strokeWidth="1.5" opacity="0.6">
+                        <animate attributeName="r" values="6;16;6" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" />
+                      </circle>
+                    </g>
+                  </Marker>
+                );
+              })()}
             </ComposableMap>
           </div>
 
