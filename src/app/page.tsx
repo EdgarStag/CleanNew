@@ -242,6 +242,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 export default function CleanNewLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeCountry, setActiveCountry] = useState<string | null>(null);
 
   // Form State
   const [formState, setFormState] = useState({ name: '', phone: '', service: 'Blindaje Textil', city: '', message: '' });
@@ -779,22 +780,58 @@ export default function CleanNewLanding() {
               <Geographies geography="/features.json">
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const isHighlighted = [
-                      "United States of America", "Mexico", "Colombia", "Brazil", 
-                      "Argentina", "Spain", "France", "Andorra", "Kuwait", 
-                      "Saudi Arabia", "United Arab Emirates", "Angola"
-                    ].includes(geo.properties.name);
+                    const countryNameMap: Record<string, string> = {
+                      'México': 'Mexico',
+                      'Estados Unidos': 'United States of America',
+                      'Brasil': 'Brazil',
+                      'Colombia': 'Colombia',
+                      'Argentina': 'Argentina',
+                      'España': 'Spain',
+                      'Francia': 'France',
+                      'Andorra': 'Andorra',
+                      'Arabia Saudita': 'Saudi Arabia',
+                      'Emiratos Árabes': 'United Arab Emirates',
+                      'Kuwait': 'Kuwait',
+                      'Angola': 'Angola',
+                    };
+
+                    const geoName = geo.properties.name;
+                    const isPresence = Object.values(countryNameMap).includes(geoName);
+                    const isSelected = activeCountry ? countryNameMap[activeCountry] === geoName : false;
+
+                    let fill = "#1C1C1C";
+                    let stroke = C.border;
+                    let strokeWidth = 0.5;
+
+                    if (isPresence) {
+                      if (activeCountry) {
+                        fill = isSelected ? '#1DBF82' : '#0B593B';
+                        stroke = isSelected ? '#34D399' : C.border;
+                        strokeWidth = isSelected ? 1.5 : 0.5;
+                      } else {
+                        fill = C.primary;
+                      }
+                    }
+
                     return (
                       <Geography
                         key={geo.rsmKey}
                         geography={geo}
-                        fill={isHighlighted ? C.primary : "#1C1C1C"}
-                        stroke={C.border}
-                        strokeWidth={0.5}
+                        fill={fill}
+                        stroke={stroke}
+                        strokeWidth={strokeWidth}
                         style={{
-                          default: { outline: "none" },
-                          hover: { fill: isHighlighted ? C.primaryLight : "#2A2A2A", outline: "none" },
+                          default: { outline: "none", transition: "all 0.3s ease" },
+                          hover: { fill: isPresence ? C.primaryLight : "#2A2A2A", outline: "none", cursor: isPresence ? 'pointer' : 'default' },
                           pressed: { outline: "none" }
+                        }}
+                        onClick={() => {
+                          if (isPresence) {
+                            const foundEntry = Object.entries(countryNameMap).find(([_, engName]) => engName === geoName);
+                            if (foundEntry) {
+                              setActiveCountry(activeCountry === foundEntry[0] ? null : foundEntry[0]);
+                            }
+                          }
                         }}
                       />
                     );
@@ -829,27 +866,34 @@ export default function CleanNewLanding() {
               { flag: '🇦🇪', name: 'Emiratos Árabes' },
               { flag: '🇰🇼', name: 'Kuwait' },
               { flag: '🇦🇴', name: 'Angola' },
-            ].map((c, i) => (
-              <div
-                key={i}
-                style={{
-                  background: C.darkCard,
-                  padding: '8px 18px',
-                  borderRadius: '20px',
-                  border: `1px solid ${C.border}`,
-                  fontSize: '.88rem',
-                  fontWeight: 600,
-                  color: C.offWhite,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                }}
-              >
-                <span>{c.flag}</span>
-                <span>{c.name}</span>
-              </div>
-            ))}
+            ].map((c, i) => {
+              const isActive = activeCountry === c.name;
+              return (
+                <div
+                  key={i}
+                  onClick={() => setActiveCountry(isActive ? null : c.name)}
+                  style={{
+                    background: isActive ? 'rgba(19,157,105,0.25)' : C.darkCard,
+                    padding: '8px 18px',
+                    borderRadius: '20px',
+                    border: isActive ? `1px solid ${C.primaryLight}` : `1px solid ${C.border}`,
+                    fontSize: '.88rem',
+                    fontWeight: 600,
+                    color: isActive ? C.primaryLight : C.offWhite,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: isActive ? '0 0 15px rgba(29,191,130,0.3)' : '0 4px 12px rgba(0,0,0,0.3)',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    transform: isActive ? 'scale(1.06)' : 'scale(1)',
+                  }}
+                >
+                  <span>{c.flag}</span>
+                  <span>{c.name}</span>
+                </div>
+              );
+            })}
           </div>
 
           <div className="reveal" style={{ textAlign: 'center', marginTop: '36px', fontSize: '1.1rem', fontWeight: 700, color: C.primaryLight, letterSpacing: '.5px' }}>
