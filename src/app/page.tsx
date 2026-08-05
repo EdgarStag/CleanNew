@@ -825,6 +825,19 @@ export default function CleanNewLanding() {
                           hover: { fill: isPresence ? C.primaryLight : "#2A2A2A", outline: "none", cursor: isPresence ? 'pointer' : 'default' },
                           pressed: { outline: "none" }
                         }}
+                        onMouseEnter={() => {
+                          if (isPresence) {
+                            const foundEntry = Object.entries(countryNameMap).find(([_, engName]) => engName === geoName);
+                            if (foundEntry) {
+                              setActiveCountry(foundEntry[0]);
+                            }
+                          }
+                        }}
+                        onMouseLeave={() => {
+                          if (isPresence) {
+                            setActiveCountry(null);
+                          }
+                        }}
                         onClick={() => {
                           if (isPresence) {
                             const foundEntry = Object.entries(countryNameMap).find(([_, engName]) => engName === geoName);
@@ -903,6 +916,8 @@ export default function CleanNewLanding() {
               return (
                 <div
                   key={i}
+                  onMouseEnter={() => setActiveCountry(c.name)}
+                  onMouseLeave={() => setActiveCountry(null)}
                   onClick={() => setActiveCountry(isActive ? null : c.name)}
                   style={{
                     background: isActive ? 'rgba(19,157,105,0.25)' : C.darkCard,
