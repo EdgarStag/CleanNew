@@ -244,6 +244,7 @@ export default function CleanNewLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
   const [activeVideoCategory, setActiveVideoCategory] = useState<string>('Todos');
+  const [showAllVideos, setShowAllVideos] = useState<boolean>(false);
 
   // Form State
   const [formState, setFormState] = useState({ name: '', phone: '', service: 'Blindaje Textil', city: '', message: '' });
@@ -702,9 +703,13 @@ export default function CleanNewLanding() {
             })}
           </div>
 
-          {/* 15 Videos Grid */}
-          <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
-            {[
+          {/* 15 Videos Grid with Collapsible Unfold Button */}
+          {(() => {
+            const allVideosList = [
+              { src: '/videos/galeria-institucional.mp4', poster: '/images/posters/galeria-institucional.jpg', title: 'Proceso Integral CleanNew', subtitle: 'Demostración institucional de higienización y blindaje', category: 'Institucional' },
+              { src: '/videos/galeria-blindaje-v3.mp4', poster: '/images/posters/galeria-blindaje-v3.jpg', title: 'Prueba de Repelencia Extrema', subtitle: 'Aplicación de nanoprotección en tapicería clara', category: 'Blindaje Textil' },
+              { src: '/videos/galeria-reels.mp4', poster: '/images/posters/galeria-reels.jpg', title: 'Prueba en Estofado Blanco', subtitle: 'Demostración de resistencia al líquido', category: 'Reels' },
+              { src: '/videos/galeria-beneficios.mp4', poster: '/images/posters/galeria-beneficios.jpg', title: 'Beneficios y Durabilidad', subtitle: 'Explicación técnica sobre el cuidado a largo plazo', category: 'Institucional' },
               { src: '/videos/blindagem-cafe-sofa-branco.mp4', poster: '/images/posters/blindagem-cafe-sofa-branco.jpg', title: 'Prueba Repulsión de Café', subtitle: 'Blindaje hidrofóbico en textil blanco', category: 'Blindaje Textil' },
               { src: '/videos/blindagem-vert-boavista-sofa-branco-160524.mp4', poster: '/images/posters/blindagem-vert-boavista-sofa-branco-160524.jpg', title: 'Blindaje Vert Boavista', subtitle: 'Protección en Sofá Blanco Residencial', category: 'Blindaje Textil' },
               { src: '/videos/blindagem-vert-boavista-sofa-branco-tragedia-160524.mp4', poster: '/images/posters/blindagem-vert-boavista-sofa-branco-tragedia-160524.jpg', title: 'Prueba Antimanchas Extrema', subtitle: 'Resistencia a derrames masivos', category: 'Blindaje Textil' },
@@ -715,24 +720,56 @@ export default function CleanNewLanding() {
               { src: '/videos/fritz-higienizando-sofa-perdido.mp4', poster: '/images/posters/fritz-higienizando-sofa-perdido.jpg', title: 'Restauración Sofá', subtitle: 'Extracción de suciedad profunda', category: 'Higienización' },
               { src: '/videos/servicos-higienizacao-sofa-cinza.mp4', poster: '/images/posters/servicos-higienizacao-sofa-cinza.jpg', title: 'Higienización Sofá Gris', subtitle: 'Inyección-extracción desinfectante', category: 'Higienización' },
               { src: '/videos/servicos-higienizacao-sofa-fritz.mp4', poster: '/images/posters/servicos-higienizacao-sofa-fritz.jpg', title: 'Limpieza Especializada', subtitle: 'Revitalización de microfibras', category: 'Higienización' },
-              { src: '/videos/higienizacao-e-blindagem-cleannew.mp4', poster: '/images/posters/higienizacao-e-blindagem-cleannew.jpg', title: 'Proceso Institucional', subtitle: 'Demostración de estándar de marca', category: 'Institucional' },
-              { src: '/videos/institucional-beneficios-da-blindagem-no-sofa-1.mp4', poster: '/images/posters/institucional-beneficios-da-blindagem-no-sofa-1.jpg', title: 'Beneficios y Durabilidad', subtitle: 'Explicación técnica de protección UV', category: 'Institucional' },
               { src: '/videos/blindagem-cn-store.mp4', poster: '/images/posters/blindagem-cn-store.jpg', title: 'Aplicación Showroom Store', subtitle: 'Demostración en tienda boutique', category: 'Institucional' },
               { src: '/videos/video-blindagem-copo-1.mp4', poster: '/images/posters/video-blindagem-copo-1.jpg', title: 'Prueba Copa con Líquido', subtitle: 'Repelencia en superficie', category: 'Reels' },
-              { src: '/videos/reels-blindagem.mp4', poster: '/images/posters/reels-blindagem.jpg', title: 'Reel: Nanotecnología', subtitle: 'Demostración en video vertical', category: 'Reels' },
-            ]
-              .filter(v => activeVideoCategory === 'Todos' || v.category === activeVideoCategory)
-              .map((vid, idx) => (
-                <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '9/16' }}>
-                  <VideoCard
-                    src={vid.src}
-                    poster={vid.poster}
-                    title={vid.title}
-                    subtitle={vid.subtitle}
-                  />
+            ];
+
+            const filtered = allVideosList.filter(v => activeVideoCategory === 'Todos' || v.category === activeVideoCategory);
+            const visible = (showAllVideos || activeVideoCategory !== 'Todos') ? filtered : filtered.slice(0, 4);
+
+            return (
+              <>
+                <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px' }}>
+                  {visible.map((vid, idx) => (
+                    <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '9/16' }}>
+                      <VideoCard
+                        src={vid.src}
+                        poster={vid.poster}
+                        title={vid.title}
+                        subtitle={vid.subtitle}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-          </div>
+
+                {activeVideoCategory === 'Todos' && (
+                  <div style={{ textAlign: 'center', marginTop: '48px' }}>
+                    <button
+                      onClick={() => setShowAllVideos(!showAllVideos)}
+                      style={{
+                        background: showAllVideos ? 'rgba(255,255,255,0.08)' : C.gradient,
+                        color: C.white,
+                        border: `1px solid ${showAllVideos ? C.border : C.primaryLight}`,
+                        padding: '14px 34px',
+                        borderRadius: '30px',
+                        fontWeight: 700,
+                        fontSize: '0.98rem',
+                        cursor: 'pointer',
+                        boxShadow: showAllVideos ? 'none' : C.accentGlow,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      <span>{showAllVideos ? 'Ocultar Catálogo Adicional' : 'Ver Más Videos de Demostración (+12 videos)'}</span>
+                      <span style={{ transform: showAllVideos ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s', display: 'inline-block' }}>▼</span>
+                    </button>
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       </section>
 
