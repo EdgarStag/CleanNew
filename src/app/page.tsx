@@ -872,10 +872,10 @@ export default function CleanNewLanding() {
                 if (!coords) return null;
 
                 return (
-                  <Marker coordinates={coords}>
-                    <g transform="translate(0, 0)">
-                      <circle r="6" fill="#34D399" stroke="#ffffff" strokeWidth="2" />
-                      <circle r="12" fill="none" stroke="#34D399" strokeWidth="1.5" opacity="0.6">
+                  <Marker coordinates={coords} style={{ default: { pointerEvents: 'none' }, hover: { pointerEvents: 'none' } }}>
+                    <g transform="translate(0, 0)" style={{ pointerEvents: 'none' }}>
+                      <circle r="6" fill="#34D399" stroke="#ffffff" strokeWidth="2" style={{ pointerEvents: 'none' }} />
+                      <circle r="12" fill="none" stroke="#34D399" strokeWidth="1.5" opacity="0.6" style={{ pointerEvents: 'none' }}>
                         <animate attributeName="r" values="6;16;6" dur="2s" repeatCount="indefinite" />
                         <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" />
                       </circle>
