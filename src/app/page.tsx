@@ -434,10 +434,39 @@ export default function CleanNewLanding() {
               cursor: 'pointer',
               fontSize: '.82rem',
               boxShadow: C.accentGlow,
+              opacity: scrolled ? 0 : 1,
+              pointerEvents: scrolled ? 'none' : 'auto',
+              transition: 'opacity 0.2s ease',
             }}
           >
             Cotizar
           </button>
+
+      {/* Floating Sticky Cotizar Button when scrolling down */}
+      {scrolled && (
+        <button
+          onClick={() => goTo('contacto')}
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '32px',
+            zIndex: 110,
+            background: C.gradient,
+            color: C.white,
+            padding: '10px 22px',
+            borderRadius: '24px',
+            border: 'none',
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontSize: '.85rem',
+            boxShadow: '0 8px 25px rgba(19,157,105,0.45)',
+            backdropFilter: 'blur(10px)',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          Cotizar
+        </button>
+      )}
 
           <div className="mob-nav-btn" style={{ display: 'none', cursor: 'pointer' }} onClick={() => setMenuOpen(!menuOpen)}>
             <div style={{ width: '26px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
