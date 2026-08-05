@@ -823,8 +823,8 @@ export default function CleanNewLanding() {
           >
             <ComposableMap projectionConfig={{ scale: 155, center: [0, 10] }} style={{ width: '100%', height: '100%' }}>
               <Geographies geography="/features.json">
-                {({ geographies }) =>
-                  geographies.map((geo) => {
+                {({ geographies }: { geographies: any[] }) =>
+                  geographies.map((geo: any) => {
                     const countryNameMap: Record<string, string> = {
                       'México': 'Mexico',
                       'Estados Unidos': 'United States of America',
