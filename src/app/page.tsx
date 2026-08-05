@@ -243,6 +243,7 @@ export default function CleanNewLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
+  const [activeVideoCategory, setActiveVideoCategory] = useState<string>('Todos');
 
   // Form State
   const [formState, setFormState] = useState({ name: '', phone: '', service: 'Blindaje Textil', city: '', message: '' });
@@ -284,9 +285,28 @@ export default function CleanNewLanding() {
 
       {/* ─── GLOBAL STYLES & ANIMATIONS ─── */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .reveal { opacity:0; transform:translateY(28px); transition:all .7s cubic-bezier(.16,1,.3,1); }
-        .reveal.active { opacity:1; transform:translateY(0); }
-        .d1 { transition-delay:.1s } .d2 { transition-delay:.2s } .d3 { transition-delay:.3s } .d4 { transition-delay:.4s }
+        /* ─── CSS Scroll-Driven Animations ─── */
+        @supports (animation-timeline: view()) {
+          .scroll-reveal {
+            animation: scrollFadeIn linear both;
+            animation-timeline: view();
+            animation-range: entry 10% cover 35%;
+          }
+          .scroll-zoom {
+            animation: scrollScaleUp linear both;
+            animation-timeline: view();
+            animation-range: entry 5% cover 35%;
+          }
+        }
+
+        @keyframes scrollFadeIn {
+          from { opacity: 0; transform: translateY(36px) scale(0.97); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes scrollScaleUp {
+          from { opacity: 0.3; transform: scale(0.92); }
+          to { opacity: 1; transform: scale(1); }
+        }
 
         .nav-glass { background:rgba(7,7,7,0.92)!important; backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,0.08); box-shadow:0 10px 30px rgba(0,0,0,0.6); }
 
@@ -640,53 +660,78 @@ export default function CleanNewLanding() {
         </div>
       </section>
 
-      {/* ═══ 7 · DEMOSTRACIONES EN VIDEO (GALERÍA DRIVE INTERACTIVA) ═══ */}
+      {/* ═══ 7 · DEMOSTRACIONES EN VIDEO (GALERÍA DRIVE INTERACTIVA 15 VIDEOS) ═══ */}
       <section id="galeria" style={{ padding: '110px 24px', background: C.darkElevated, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: '64px' }}>
+          <div className="reveal scroll-reveal" style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div style={{ color: C.primary, fontSize: '.9rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
-              Evidencia Real
+              Evidencia Real Drive
             </div>
             <h2 style={{ fontSize: '2.8rem', fontWeight: 800, margin: 0 }}>Galería de Demostraciones en Video</h2>
             <p style={{ color: C.gray, fontSize: '1.05rem', maxWidth: '640px', margin: '14px auto 0' }}>
-              Compruebe la efectividad inmediata de nuestro proceso técnico en diferentes escenarios.
+              Explore nuestro catálogo técnico completo de 15 demostraciones reales grabadas en vivo.
             </p>
             <div style={{ width: '60px', height: '4px', background: C.gradient, margin: '18px auto 0', borderRadius: '2px' }} />
           </div>
 
-          <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px' }}>
-            <div className="reveal d1" style={{ aspectRatio: '9/16' }}>
-              <VideoCard
-                src="/videos/galeria-institucional.mp4"
-                poster="/images/posters/galeria-institucional.jpg"
-                title="Proceso Integral CleanNew"
-                subtitle="Demostración institucional de higienización y blindaje"
-              />
-            </div>
-            <div className="reveal d2" style={{ aspectRatio: '9/16' }}>
-              <VideoCard
-                src="/videos/galeria-blindaje-v3.mp4"
-                poster="/images/posters/galeria-blindaje-v3.jpg"
-                title="Prueba de Repelencia Extrema"
-                subtitle="Aplicación de nanoprotección en tapicería clara"
-              />
-            </div>
-            <div className="reveal d3" style={{ aspectRatio: '9/16' }}>
-              <VideoCard
-                src="/videos/galeria-reels.mp4"
-                poster="/images/posters/galeria-reels.jpg"
-                title="Prueba en Estofado Blanco"
-                subtitle="Demostración de resistencia al líquido"
-              />
-            </div>
-            <div className="reveal d4" style={{ aspectRatio: '9/16' }}>
-              <VideoCard
-                src="/videos/galeria-beneficios.mp4"
-                poster="/images/posters/galeria-beneficios.jpg"
-                title="Beneficios y Durabilidad"
-                subtitle="Explicación técnica sobre el cuidado a largo plazo"
-              />
-            </div>
+          {/* Category Tabs */}
+          <div className="reveal scroll-reveal" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '48px' }}>
+            {['Todos', 'Blindaje Textil', 'Higienización', 'Institucional', 'Reels'].map((cat) => {
+              const isActive = activeVideoCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveVideoCategory(cat)}
+                  style={{
+                    background: isActive ? C.gradient : C.darkCard,
+                    color: C.white,
+                    border: isActive ? `1px solid ${C.primaryLight}` : `1px solid ${C.border}`,
+                    padding: '10px 22px',
+                    borderRadius: '25px',
+                    fontWeight: 600,
+                    fontSize: '.9rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    boxShadow: isActive ? C.accentGlow : 'none',
+                    transform: isActive ? 'scale(1.05)' : 'scale(1)',
+                  }}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 15 Videos Grid */}
+          <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            {[
+              { src: '/videos/blindagem-cafe-sofa-branco.mp4', poster: '/images/posters/blindagem-cafe-sofa-branco.jpg', title: 'Prueba Repulsión de Café', subtitle: 'Blindaje hidrofóbico en textil blanco', category: 'Blindaje Textil' },
+              { src: '/videos/blindagem-vert-boavista-sofa-branco-160524.mp4', poster: '/images/posters/blindagem-vert-boavista-sofa-branco-160524.jpg', title: 'Blindaje Vert Boavista', subtitle: 'Protección en Sofá Blanco Residencial', category: 'Blindaje Textil' },
+              { src: '/videos/blindagem-vert-boavista-sofa-branco-tragedia-160524.mp4', poster: '/images/posters/blindagem-vert-boavista-sofa-branco-tragedia-160524.jpg', title: 'Prueba Antimanchas Extrema', subtitle: 'Resistencia a derrames masivos', category: 'Blindaje Textil' },
+              { src: '/videos/blindagem-estofado-branco.mp4', poster: '/images/posters/blindagem-estofado-branco.jpg', title: 'Nanoprotección en Estofado', subtitle: 'Preservación de textura y suavidad', category: 'Blindaje Textil' },
+              { src: '/videos/v3-blindagem.mp4', poster: '/images/posters/v3-blindagem.jpg', title: 'Prueba V3 Nanotecnología', subtitle: 'Prueba de tensión superficial', category: 'Blindaje Textil' },
+              { src: '/videos/cn-hihienizacao-blindagem-1.mp4', poster: '/images/posters/cn-hihienizacao-blindagem-1.jpg', title: 'Higienización y Sanidad', subtitle: 'Extracción de ácaros y alérgenos', category: 'Higienización' },
+              { src: '/videos/fritz-higienizacao-metade-tapete.mp4', poster: '/images/posters/fritz-higienizacao-metade-tapete.jpg', title: 'Prueba Extracción Tapete', subtitle: 'Comparativa de mitad limpia vs sucia', category: 'Higienización' },
+              { src: '/videos/fritz-higienizando-sofa-perdido.mp4', poster: '/images/posters/fritz-higienizando-sofa-perdido.jpg', title: 'Restauración Sofá', subtitle: 'Extracción de suciedad profunda', category: 'Higienización' },
+              { src: '/videos/servicos-higienizacao-sofa-cinza.mp4', poster: '/images/posters/servicos-higienizacao-sofa-cinza.jpg', title: 'Higienización Sofá Gris', subtitle: 'Inyección-extracción desinfectante', category: 'Higienización' },
+              { src: '/videos/servicos-higienizacao-sofa-fritz.mp4', poster: '/images/posters/servicos-higienizacao-sofa-fritz.jpg', title: 'Limpieza Especializada', subtitle: 'Revitalización de microfibras', category: 'Higienización' },
+              { src: '/videos/higienizacao-e-blindagem-cleannew.mp4', poster: '/images/posters/higienizacao-e-blindagem-cleannew.jpg', title: 'Proceso Institucional', subtitle: 'Demostración de estándar de marca', category: 'Institucional' },
+              { src: '/videos/institucional-beneficios-da-blindagem-no-sofa-1.mp4', poster: '/images/posters/institucional-beneficios-da-blindagem-no-sofa-1.jpg', title: 'Beneficios y Durabilidad', subtitle: 'Explicación técnica de protección UV', category: 'Institucional' },
+              { src: '/videos/blindagem-cn-store.mp4', poster: '/images/posters/blindagem-cn-store.jpg', title: 'Aplicación Showroom Store', subtitle: 'Demostración en tienda boutique', category: 'Institucional' },
+              { src: '/videos/video-blindagem-copo-1.mp4', poster: '/images/posters/video-blindagem-copo-1.jpg', title: 'Prueba Copa con Líquido', subtitle: 'Repelencia en superficie', category: 'Reels' },
+              { src: '/videos/reels-blindagem.mp4', poster: '/images/posters/reels-blindagem.jpg', title: 'Reel: Nanotecnología', subtitle: 'Demostración en video vertical', category: 'Reels' },
+            ]
+              .filter(v => activeVideoCategory === 'Todos' || v.category === activeVideoCategory)
+              .map((vid, idx) => (
+                <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '9/16' }}>
+                  <VideoCard
+                    src={vid.src}
+                    poster={vid.poster}
+                    title={vid.title}
+                    subtitle={vid.subtitle}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </section>
