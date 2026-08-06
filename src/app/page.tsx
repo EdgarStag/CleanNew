@@ -102,12 +102,13 @@ const VideoCard = ({
   const [isMuted, setIsMuted] = useState(muted);
 
   useEffect(() => {
-    if (autoPlay && videoRef.current) {
+    if ((autoPlay || isBackground) && videoRef.current) {
+      videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
       setIsMuted(true);
       videoRef.current.play().catch(() => {});
     }
-  }, [autoPlay]);
+  }, [autoPlay, isBackground]);
 
   useEffect(() => {
     if (isBackground) return;
