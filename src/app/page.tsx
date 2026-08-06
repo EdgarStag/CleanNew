@@ -29,7 +29,11 @@ const useScrollReveal = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('active');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          } else {
+            entry.target.classList.remove('active');
+          }
         });
       },
       { threshold: 0.1 }
@@ -335,7 +339,6 @@ export default function CleanNewLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
   const [activeVideoCategory, setActiveVideoCategory] = useState<string>('Blindaje Textil');
-  const [showAllVideos, setShowAllVideos] = useState<boolean>(false);
 
   // Form State
   const [formState, setFormState] = useState({ name: '', phone: '', service: 'Blindaje Textil', city: '', message: '' });
@@ -841,14 +844,13 @@ export default function CleanNewLanding() {
             ];
 
             const filtered = allVideosList.filter(v => v.category === activeVideoCategory);
-            const visible = showAllVideos ? filtered : filtered.slice(0, 4);
+            const visible = filtered;
 
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
                 {/* Reels Style Vertical Feed Container for videos */}
-                {!showAllVideos && (
-                  <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto 36px' }}>
+                <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto 36px' }}>
                     <div
                       key={activeVideoCategory}
                       className="hide-scrollbar"
@@ -886,62 +888,6 @@ export default function CleanNewLanding() {
                       ↕ Desliza hacia arriba o abajo para ver más demostraciones.
                     </div>
                   </div>
-                )}
-
-                {/* Grid View for All Videos (when expand clicked) */}
-                {showAllVideos && (
-                  <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '36px', width: '100%' }}>
-                    {visible.map((vid, idx) => (
-                      <div key={idx} className="reveal scroll-zoom" style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ aspectRatio: '16/9', width: '100%', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 8px 25px rgba(0,0,0,0.5)' }}>
-                          <VideoCard
-                            src={vid.src}
-                            poster={vid.poster}
-                            playOnHover
-                            hideTextOverlay
-                          />
-                        </div>
-                        <div style={{ padding: '20px 8px 0' }}>
-                          <div style={{ color: C.primaryLight, fontSize: '.75rem', fontWeight: 700, letterSpacing: '0.5px', marginBottom: '6px' }}>
-                            {vid.category.toUpperCase()}
-                          </div>
-                          <div style={{ color: C.white, fontWeight: 700, fontSize: '1.1rem', lineHeight: 1.3, marginBottom: '6px' }}>
-                            {vid.title}
-                          </div>
-                          <div style={{ color: C.gray, fontSize: '.88rem', lineHeight: 1.5 }}>
-                            {vid.subtitle}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {filtered.length > 4 && (
-                  <div style={{ textAlign: 'center', marginTop: '28px' }}>
-                    <button
-                      onClick={() => setShowAllVideos(!showAllVideos)}
-                      style={{
-                        background: showAllVideos ? 'rgba(255,255,255,0.08)' : C.gradient,
-                        color: C.white,
-                        border: `1px solid ${showAllVideos ? C.border : C.primaryLight}`,
-                        padding: '14px 34px',
-                        borderRadius: '30px',
-                        fontWeight: 700,
-                        fontSize: '.98rem',
-                        cursor: 'pointer',
-                        boxShadow: showAllVideos ? 'none' : C.accentGlow,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        transition: 'all 0.3s ease',
-                      }}
-                    >
-                      <span>{showAllVideos ? 'Volver al Formato Reels' : 'Ver Más Demostraciones'}</span>
-                      <span style={{ transform: showAllVideos ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s', display: 'inline-block' }}>▼</span>
-                    </button>
-                  </div>
-                )}
               </div>
             );
           })()}
