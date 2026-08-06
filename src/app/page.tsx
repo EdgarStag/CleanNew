@@ -850,6 +850,7 @@ export default function CleanNewLanding() {
                 {!showAllVideos && (
                   <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto 36px' }}>
                     <div
+                      key={activeVideoCategory}
                       className="hide-scrollbar"
                       style={{
                         height: '620px',
