@@ -423,6 +423,7 @@ export default function CleanNewLanding() {
           .grid-3col{grid-template-columns:1fr!important}
           .flex-mob-col{flex-direction:column!important}
           .reverse-mob{flex-direction:column-reverse!important}
+          .flex-mob-col, .reverse-mob { max-height: none !important; }
         }
       `}} />
 
