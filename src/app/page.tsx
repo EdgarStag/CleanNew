@@ -334,7 +334,7 @@ export default function CleanNewLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
-  const [activeVideoCategory, setActiveVideoCategory] = useState<string>('Todos');
+  const [activeVideoCategory, setActiveVideoCategory] = useState<string>('Blindaje Textil');
   const [showAllVideos, setShowAllVideos] = useState<boolean>(false);
 
   // Form State
@@ -793,7 +793,7 @@ export default function CleanNewLanding() {
 
           {/* Category Tabs */}
           <div className="reveal scroll-reveal" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '48px' }}>
-            {['Todos', 'Blindaje Textil', 'Higienización', 'Institucional', 'Reels'].map((cat) => {
+            {['Blindaje Textil', 'Higienización', 'Institucional', 'Reels'].map((cat) => {
               const isActive = activeVideoCategory === cat;
               return (
                 <button
@@ -840,8 +840,8 @@ export default function CleanNewLanding() {
               { src: '/videos/video-blindagem-copo-1.mp4', poster: '/images/posters/video-blindagem-copo-1.jpg', title: 'Prueba Copa con Líquido', subtitle: 'Repelencia en superficie', category: 'Reels' },
             ];
 
-            const filtered = allVideosList.filter(v => activeVideoCategory === 'Todos' || v.category === activeVideoCategory);
-            const visible = (showAllVideos || activeVideoCategory !== 'Todos') ? filtered : filtered.slice(0, 4);
+            const filtered = allVideosList.filter(v => v.category === activeVideoCategory);
+            const visible = showAllVideos ? filtered : filtered.slice(0, 4);
 
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
