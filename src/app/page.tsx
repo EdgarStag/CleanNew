@@ -575,8 +575,6 @@ export default function CleanNewLanding() {
               style={{
                 background: C.darkElevated,
                 padding: '36px 28px',
-                borderRadius: '18px',
-                border: `1px solid ${C.border}`,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
@@ -591,19 +589,20 @@ export default function CleanNewLanding() {
       </section>
 
       {/* ═══ 5 · SERVICIOS CON VIDEOS Y POSTERS DE IMAGEN REAL ═══ */}
-      <section id="servicios" style={{ padding: '90px 24px', background: C.darkElevated, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: '44px' }}>
-            <div style={{ color: C.primary, fontSize: '.9rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+      <section id="servicios" style={{ padding: '64px 24px', background: C.darkElevated, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+          <div className="reveal" style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <div style={{ color: C.primary, fontSize: '.82rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '6px' }}>
               Soluciones Especializadas
             </div>
-            <h2 style={{ fontSize: '2.4rem', fontWeight: 800, margin: 0 }}>Servicios de Alta Gama</h2>
-            <div style={{ width: '60px', height: '4px', background: C.gradient, margin: '16px auto 0', borderRadius: '2px' }} />
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, margin: 0 }}>Servicios de Alta Gama</h2>
+            <div style={{ width: '50px', height: '3px', background: C.gradient, margin: '12px auto 0', borderRadius: '2px' }} />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
-            <div className="reveal flex-mob-col" style={{ display: 'flex', background: C.darkCard, borderRadius: '24px', overflow: 'hidden', border: `1px solid ${C.border}`, minHeight: '360px' }}>
-              <div style={{ flex: 1, position: 'relative', minHeight: '320px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* Servicio 1: Blindaje Textil */}
+            <div className="reveal flex-mob-col" style={{ display: 'flex', background: C.darkCard, borderRadius: '16px', overflow: 'hidden', border: `1px solid ${C.border}`, maxHeight: '270px' }}>
+              <div style={{ flex: 1, position: 'relative', minHeight: '220px' }}>
                 <VideoCard
                   src="/videos/blindaje-cafe.mp4"
                   poster="/images/posters/blindaje-cafe.jpg"
@@ -613,15 +612,15 @@ export default function CleanNewLanding() {
                   objectPosition="center center"
                 />
               </div>
-              <div style={{ flex: 1.2, padding: '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'inline-block', background: 'rgba(19,157,105,0.15)', color: C.primaryLight, padding: '5px 16px', borderRadius: '20px', fontSize: '.78rem', fontWeight: 700, marginBottom: '16px', alignSelf: 'flex-start' }}>
+              <div style={{ flex: 1.2, padding: '24px 30px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ display: 'inline-block', background: 'rgba(19,157,105,0.15)', color: C.primaryLight, padding: '4px 12px', borderRadius: '16px', fontSize: '.72rem', fontWeight: 700, marginBottom: '10px', alignSelf: 'flex-start' }}>
                   TECNOLOGÍA DE BLINDAJE
                 </div>
-                <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '14px' }}>Blindaje Nanotecnológico de Sofás y Estofados</h3>
-                <p style={{ color: C.grayLight, marginBottom: '16px', lineHeight: 1.6, fontSize: '.94rem' }}>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px' }}>Blindaje Nanotecnológico de Sofás y Estofados</h3>
+                <p style={{ color: C.grayLight, marginBottom: '10px', lineHeight: 1.45, fontSize: '.85rem' }}>
                   Aplicación de nanopartículas que envuelven individualmente cada fibra del tejido sin sellar los poros. El resultado es una barrera invisible que repele líquidos acuosos y aceitosos, impidiendo la fijación de manchas persistentes.
                 </p>
-                <ul style={{ color: C.gray, listStyle: 'none', padding: 0, fontSize: '.88rem', lineHeight: 1.9 }}>
+                <ul style={{ color: C.gray, listStyle: 'none', padding: 0, fontSize: '.8rem', lineHeight: 1.6 }}>
                   <li>✓ Ideal para lino, terciopelo, chenille, algodón y tejidos sintéticos</li>
                   <li>✓ Preserva el tono, suavidad y flexibilidad original</li>
                   <li>✓ Garantía de protección de hasta 12 meses</li>
@@ -630,22 +629,22 @@ export default function CleanNewLanding() {
             </div>
 
             {/* Servicio 2: Higienización Profunda */}
-            <div className="reveal reverse-mob" style={{ display: 'flex', background: C.darkCard, borderRadius: '24px', overflow: 'hidden', border: `1px solid ${C.border}`, minHeight: '360px' }}>
-              <div style={{ flex: 1.2, padding: '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'inline-block', background: 'rgba(19,157,105,0.15)', color: C.primaryLight, padding: '5px 16px', borderRadius: '20px', fontSize: '.78rem', fontWeight: 700, marginBottom: '16px', alignSelf: 'flex-start' }}>
+            <div className="reveal reverse-mob" style={{ display: 'flex', background: C.darkCard, borderRadius: '16px', overflow: 'hidden', border: `1px solid ${C.border}`, maxHeight: '270px' }}>
+              <div style={{ flex: 1.2, padding: '24px 30px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ display: 'inline-block', background: 'rgba(19,157,105,0.15)', color: C.primaryLight, padding: '4px 12px', borderRadius: '16px', fontSize: '.72rem', fontWeight: 700, marginBottom: '10px', alignSelf: 'flex-start' }}>
                   DESINFECCIÓN Y SANITIZACIÓN
                 </div>
-                <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '14px' }}>Higienización Profunda e Inyección-Extracción</h3>
-                <p style={{ color: C.grayLight, marginBottom: '16px', lineHeight: 1.6, fontSize: '.94rem' }}>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px' }}>Higienización Profunda e Inyección-Extracción</h3>
+                <p style={{ color: C.grayLight, marginBottom: '10px', lineHeight: 1.45, fontSize: '.85rem' }}>
                   Proceso técnico de desinfección mediante extracción profunda de sustratos microbianos, bacterias, hongos y ácaros acumulados en el interior del relleno. Revitaliza las fibras y restaura la higiene de su entorno residencial.
                 </p>
-                <ul style={{ color: C.gray, listStyle: 'none', padding: 0, fontSize: '.88rem', lineHeight: 1.9 }}>
+                <ul style={{ color: C.gray, listStyle: 'none', padding: 0, fontSize: '.8rem', lineHeight: 1.6 }}>
                   <li>✓ Extracción de mugre interna, ácaros y alérgenos</li>
                   <li>✓ Neutralización efectiva de olores y bacterias</li>
                   <li>✓ Proceso ideal antes de realizar la impermeabilización</li>
                 </ul>
               </div>
-              <div style={{ flex: 1, position: 'relative', minHeight: '320px' }}>
+              <div style={{ flex: 1, position: 'relative', minHeight: '220px' }}>
                 <VideoCard
                   src="/videos/higienizacion-blindaje.mp4"
                   poster="/images/posters/higienizacion-blindaje.jpg"
@@ -658,8 +657,8 @@ export default function CleanNewLanding() {
             </div>
 
             {/* Servicio 3: Tratamiento de Piel y Cuero */}
-            <div className="reveal flex-mob-col" style={{ display: 'flex', background: C.darkCard, borderRadius: '24px', overflow: 'hidden', border: `1px solid ${C.border}`, minHeight: '360px' }}>
-              <div style={{ flex: 1, position: 'relative', minHeight: '320px' }}>
+            <div className="reveal flex-mob-col" style={{ display: 'flex', background: C.darkCard, borderRadius: '16px', overflow: 'hidden', border: `1px solid ${C.border}`, maxHeight: '270px' }}>
+              <div style={{ flex: 1, position: 'relative', minHeight: '220px' }}>
                 <VideoCard
                   src="/videos/blindaje-vaso.mp4"
                   poster="/images/posters/blindaje-vaso.jpg"
@@ -669,15 +668,15 @@ export default function CleanNewLanding() {
                   objectPosition="center center"
                 />
               </div>
-              <div style={{ flex: 1.2, padding: '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'inline-block', background: 'rgba(19,157,105,0.15)', color: C.primaryLight, padding: '5px 16px', borderRadius: '20px', fontSize: '.78rem', fontWeight: 700, marginBottom: '16px', alignSelf: 'flex-start' }}>
+              <div style={{ flex: 1.2, padding: '24px 30px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ display: 'inline-block', background: 'rgba(19,157,105,0.15)', color: C.primaryLight, padding: '4px 12px', borderRadius: '16px', fontSize: '.72rem', fontWeight: 700, marginBottom: '10px', alignSelf: 'flex-start' }}>
                   CUIDADO DE PIEL Y CUERO
                 </div>
-                <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '14px' }}>Restauración e Hidratación de Cuero</h3>
-                <p style={{ color: C.grayLight, marginBottom: '16px', lineHeight: 1.6, fontSize: '.94rem' }}>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '8px' }}>Restauración e Hidratación de Cuero</h3>
+                <p style={{ color: C.grayLight, marginBottom: '10px', lineHeight: 1.45, fontSize: '.85rem' }}>
                   Tratamiento exclusivo formulado para acondicionar, limpiar e hidratar el cuero genuino y sintético. Evita el agrietamiento, la resecación por climatización y restaura el acabado mate y suave del primer día.
                 </p>
-                <ul style={{ color: C.gray, listStyle: 'none', padding: 0, fontSize: '.88rem', lineHeight: 1.9 }}>
+                <ul style={{ color: C.gray, listStyle: 'none', padding: 0, fontSize: '.8rem', lineHeight: 1.6 }}>
                   <li>✓ Nutrición profunda contra resecamiento y grietas</li>
                   <li>✓ Barrera de protección contra manchas y fricción</li>
                   <li>✓ Libre de brillo artificial o residuos grasos</li>
