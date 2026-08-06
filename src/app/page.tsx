@@ -82,18 +82,22 @@ const VideoCard = ({
   loop = false,
   isBackground = false,
   playOnHover = false,
+  hideTextOverlay = false,
+  hidePlayButton = false,
   className = '',
   objectPosition = 'center',
 }: {
   src: string;
   poster?: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   autoPlay?: boolean;
   muted?: boolean;
   loop?: boolean;
   isBackground?: boolean;
   playOnHover?: boolean;
+  hideTextOverlay?: boolean;
+  hidePlayButton?: boolean;
   className?: string;
   objectPosition?: string;
 }) => {
@@ -234,29 +238,30 @@ const VideoCard = ({
           transition: 'all 0.3s ease',
         }}
       >
-        {!playing && (
+        {!playing && !hidePlayButton && (
           <div
             style={{
-              width: '64px',
-              height: '64px',
+              width: '48px',
+              height: '48px',
               borderRadius: '50%',
-              background: C.gradient,
+              background: 'rgba(19,157,105,0.85)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: C.accentGlow,
+              boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
               transform: 'scale(1)',
               transition: 'transform 0.2s ease',
+              backdropFilter: 'blur(4px)',
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '4px' }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '4px' }}>
               <polygon points="8,5 20,12 8,19" />
             </svg>
           </div>
         )}
       </button>
 
-      {title && (
+      {title && !hideTextOverlay && (
         <div
           style={{
             position: 'absolute',
@@ -841,8 +846,8 @@ export default function CleanNewLanding() {
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-                {/* Reels Style Vertical Feed Container for 4 main videos */}
-                {activeVideoCategory === 'Todos' && !showAllVideos && (
+                {/* Reels Style Vertical Feed Container for videos */}
+                {!showAllVideos && (
                   <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto 36px' }}>
                     <div
                       className="hide-scrollbar"
@@ -882,24 +887,36 @@ export default function CleanNewLanding() {
                   </div>
                 )}
 
-                {/* Grid View for All Videos (when category selected or expand clicked) */}
-                {(showAllVideos || activeVideoCategory !== 'Todos') && (
-                  <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px', width: '100%' }}>
+                {/* Grid View for All Videos (when expand clicked) */}
+                {showAllVideos && (
+                  <div className="grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '36px', width: '100%' }}>
                     {visible.map((vid, idx) => (
-                      <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '16/9' }}>
-                        <VideoCard
-                          src={vid.src}
-                          poster={vid.poster}
-                          title={vid.title}
-                          subtitle={vid.subtitle}
-                          playOnHover
-                        />
+                      <div key={idx} className="reveal scroll-zoom" style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ aspectRatio: '16/9', width: '100%', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 8px 25px rgba(0,0,0,0.5)' }}>
+                          <VideoCard
+                            src={vid.src}
+                            poster={vid.poster}
+                            playOnHover
+                            hideTextOverlay
+                          />
+                        </div>
+                        <div style={{ padding: '20px 8px 0' }}>
+                          <div style={{ color: C.primaryLight, fontSize: '.75rem', fontWeight: 700, letterSpacing: '0.5px', marginBottom: '6px' }}>
+                            {vid.category.toUpperCase()}
+                          </div>
+                          <div style={{ color: C.white, fontWeight: 700, fontSize: '1.1rem', lineHeight: 1.3, marginBottom: '6px' }}>
+                            {vid.title}
+                          </div>
+                          <div style={{ color: C.gray, fontSize: '.88rem', lineHeight: 1.5 }}>
+                            {vid.subtitle}
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
                 )}
 
-                {activeVideoCategory === 'Todos' && (
+                {filtered.length > 4 && (
                   <div style={{ textAlign: 'center', marginTop: '28px' }}>
                     <button
                       onClick={() => setShowAllVideos(!showAllVideos)}
