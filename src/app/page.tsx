@@ -71,7 +71,7 @@ const Counter = ({ target, suffix = '' }: { target: number; suffix?: string }) =
   return <span ref={ref}>{count}{suffix}</span>;
 };
 
-/* ─── Video Player Card with Image Fallback Poster ─── */
+/* ─── Video Player Card with Image Fallback Poster & Hover-Play Support ─── */
 const VideoCard = ({
   src,
   poster,
@@ -80,6 +80,8 @@ const VideoCard = ({
   autoPlay = false,
   muted = false,
   loop = false,
+  isBackground = false,
+  playOnHover = false,
   className = '',
   objectPosition = 'center',
 }: {
@@ -90,6 +92,8 @@ const VideoCard = ({
   autoPlay?: boolean;
   muted?: boolean;
   loop?: boolean;
+  isBackground?: boolean;
+  playOnHover?: boolean;
   className?: string;
   objectPosition?: string;
 }) => {
@@ -106,6 +110,8 @@ const VideoCard = ({
   }, [autoPlay]);
 
   useEffect(() => {
+    if (isBackground) return;
+
     const handleGlobalPlay = (e: CustomEvent<{ src: string }>) => {
       if (e.detail && e.detail.src !== src && videoRef.current) {
         videoRef.current.pause();
@@ -117,12 +123,30 @@ const VideoCard = ({
     return () => {
       window.removeEventListener('cleannew-play-video' as any, handleGlobalPlay as any);
     };
-  }, [src]);
+  }, [src, isBackground]);
+
+  const handleMouseEnter = () => {
+    if (playOnHover && videoRef.current) {
+      window.dispatchEvent(new CustomEvent('cleannew-play-video', { detail: { src } }));
+      videoRef.current.muted = isMuted;
+      videoRef.current.play().catch(() => {});
+      setPlaying(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (playOnHover && videoRef.current && !autoPlay) {
+      videoRef.current.pause();
+      setPlaying(false);
+    }
+  };
 
   const togglePlay = () => {
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
-      window.dispatchEvent(new CustomEvent('cleannew-play-video', { detail: { src } }));
+      if (!isBackground) {
+        window.dispatchEvent(new CustomEvent('cleannew-play-video', { detail: { src } }));
+      }
       videoRef.current.muted = false;
       setIsMuted(false);
       videoRef.current.play().catch(() => {});
@@ -143,6 +167,8 @@ const VideoCard = ({
   return (
     <div
       className={`video-card ${className}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       style={{
         position: 'relative',
         borderRadius: '16px',
@@ -608,7 +634,7 @@ export default function CleanNewLanding() {
                   poster="/images/posters/blindaje-cafe.jpg"
                   title="Demostración: Prueba de repulsión de café"
                   subtitle="Blindaje hidrofóbico en textil claro"
-                  autoPlay muted loop
+                  autoPlay muted loop isBackground
                   objectPosition="center center"
                 />
               </div>
@@ -650,7 +676,7 @@ export default function CleanNewLanding() {
                   poster="/images/posters/higienizacion-blindaje.jpg"
                   title="Demostración: Extracción técnica profunda"
                   subtitle="Proceso de desinfección bactericida"
-                  autoPlay muted loop
+                  autoPlay muted loop isBackground
                   objectPosition="center center"
                 />
               </div>
@@ -664,7 +690,7 @@ export default function CleanNewLanding() {
                   poster="/images/posters/blindaje-vaso.jpg"
                   title="Demostración: Hidratación de cuero genuino"
                   subtitle="Acondicionamiento sin brillo graso"
-                  autoPlay muted loop
+                  autoPlay muted loop isBackground
                   objectPosition="center center"
                 />
               </div>
@@ -787,7 +813,7 @@ export default function CleanNewLanding() {
             })}
           </div>
 
-          {/* 15 Videos Grid with Collapsible Unfold Button */}
+          {/* 15 Videos Grid & Reels Vertical Feed Interface */}
           {(() => {
             const allVideosList = [
               { src: '/videos/galeria-institucional.mp4', poster: '/images/posters/galeria-institucional.jpg', title: 'Proceso Integral CleanNew', subtitle: 'Demostración institucional de higienización y blindaje', category: 'Institucional' },
@@ -812,22 +838,98 @@ export default function CleanNewLanding() {
             const visible = (showAllVideos || activeVideoCategory !== 'Todos') ? filtered : filtered.slice(0, 4);
 
             return (
-              <>
-                <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px' }}>
-                  {visible.map((vid, idx) => (
-                    <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '9/16' }}>
-                      <VideoCard
-                        src={vid.src}
-                        poster={vid.poster}
-                        title={vid.title}
-                        subtitle={vid.subtitle}
-                      />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+                {/* TikTok / Instagram Reels Smartphone Feed Container for 4 main videos */}
+                {activeVideoCategory === 'Todos' && !showAllVideos && (
+                  <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto 36px' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                      <span style={{ background: 'rgba(19,157,105,0.2)', color: C.primaryLight, padding: '6px 16px', borderRadius: '20px', fontSize: '.82rem', fontWeight: 700, letterSpacing: '1px' }}>
+                        📱 REELS FEED • DESLIZA HACIA ARRIBA/ABAJO
+                      </span>
                     </div>
-                  ))}
-                </div>
+
+                    <div
+                      style={{
+                        height: '620px',
+                        overflowY: 'scroll',
+                        scrollSnapType: 'y mandatory',
+                        borderRadius: '28px',
+                        border: `2px solid ${C.borderActive}`,
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(19,157,105,0.25)',
+                        background: C.dark,
+                        position: 'relative',
+                      }}
+                    >
+                      {visible.map((vid, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            height: '620px',
+                            scrollSnapAlign: 'start',
+                            scrollSnapStop: 'always',
+                            position: 'relative',
+                          }}
+                        >
+                          <VideoCard
+                            src={vid.src}
+                            poster={vid.poster}
+                            title={vid.title}
+                            subtitle={vid.subtitle}
+                            playOnHover
+                          />
+                          {/* TikTok / Reels UI Overlay Badge */}
+                          <div
+                            style={{
+                              position: 'absolute',
+                              bottom: '24px',
+                              left: '20px',
+                              right: '20px',
+                              pointerEvents: 'none',
+                              zIndex: 5,
+                              background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)',
+                              padding: '20px 16px 12px',
+                              borderRadius: '16px',
+                            }}
+                          >
+                            <div style={{ display: 'inline-block', background: C.gradient, color: C.white, fontSize: '.72rem', fontWeight: 700, padding: '3px 10px', borderRadius: '12px', marginBottom: '6px' }}>
+                              @{vid.category}
+                            </div>
+                            <div style={{ color: C.white, fontWeight: 800, fontSize: '1rem', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+                              {vid.title}
+                            </div>
+                            <div style={{ color: C.offWhite, fontSize: '.82rem', marginTop: '4px', opacity: 0.9 }}>
+                              {vid.subtitle}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ textAlign: 'center', color: C.gray, fontSize: '.8rem', marginTop: '12px' }}>
+                      ↕ Usa la rueda o desliza sobre el teléfono para ver los 4 principales. Pasa el cursor para reproducir.
+                    </div>
+                  </div>
+                )}
+
+                {/* Grid View for All Videos (when category selected or expand clicked) */}
+                {(showAllVideos || activeVideoCategory !== 'Todos') && (
+                  <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px', width: '100%' }}>
+                    {visible.map((vid, idx) => (
+                      <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '9/16' }}>
+                        <VideoCard
+                          src={vid.src}
+                          poster={vid.poster}
+                          title={vid.title}
+                          subtitle={vid.subtitle}
+                          playOnHover
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {activeVideoCategory === 'Todos' && (
-                  <div style={{ textAlign: 'center', marginTop: '48px' }}>
+                  <div style={{ textAlign: 'center', marginTop: '28px' }}>
                     <button
                       onClick={() => setShowAllVideos(!showAllVideos)}
                       style={{
@@ -837,7 +939,7 @@ export default function CleanNewLanding() {
                         padding: '14px 34px',
                         borderRadius: '30px',
                         fontWeight: 700,
-                        fontSize: '0.98rem',
+                        fontSize: '.98rem',
                         cursor: 'pointer',
                         boxShadow: showAllVideos ? 'none' : C.accentGlow,
                         display: 'inline-flex',
@@ -846,12 +948,12 @@ export default function CleanNewLanding() {
                         transition: 'all 0.3s ease',
                       }}
                     >
-                      <span>{showAllVideos ? 'Ocultar Catálogo Adicional' : 'Ver Más Videos de Demostración'}</span>
+                      <span>{showAllVideos ? 'Volver al Formato Reels' : 'Ver Más Demostraciones'}</span>
                       <span style={{ transform: showAllVideos ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s', display: 'inline-block' }}>▼</span>
                     </button>
                   </div>
                 )}
-              </>
+              </div>
             );
           })()}
         </div>
