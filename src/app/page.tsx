@@ -841,23 +841,17 @@ export default function CleanNewLanding() {
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-                {/* TikTok / Instagram Reels Smartphone Feed Container for 4 main videos */}
+                {/* Reels Style Vertical Feed Container for 4 main videos */}
                 {activeVideoCategory === 'Todos' && !showAllVideos && (
                   <div style={{ width: '100%', maxWidth: '380px', margin: '0 auto 36px' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                      <span style={{ background: 'rgba(19,157,105,0.2)', color: C.primaryLight, padding: '6px 16px', borderRadius: '20px', fontSize: '.82rem', fontWeight: 700, letterSpacing: '1px' }}>
-                        📱 REELS FEED • DESLIZA HACIA ARRIBA/ABAJO
-                      </span>
-                    </div>
-
                     <div
+                      className="hide-scrollbar"
                       style={{
                         height: '620px',
                         overflowY: 'scroll',
                         scrollSnapType: 'y mandatory',
-                        borderRadius: '28px',
-                        border: `2px solid ${C.borderActive}`,
-                        boxShadow: '0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(19,157,105,0.25)',
+                        borderRadius: '16px',
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
                         background: C.dark,
                         position: 'relative',
                       }}
@@ -879,35 +873,11 @@ export default function CleanNewLanding() {
                             subtitle={vid.subtitle}
                             playOnHover
                           />
-                          {/* TikTok / Reels UI Overlay Badge */}
-                          <div
-                            style={{
-                              position: 'absolute',
-                              bottom: '24px',
-                              left: '20px',
-                              right: '20px',
-                              pointerEvents: 'none',
-                              zIndex: 5,
-                              background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)',
-                              padding: '20px 16px 12px',
-                              borderRadius: '16px',
-                            }}
-                          >
-                            <div style={{ display: 'inline-block', background: C.gradient, color: C.white, fontSize: '.72rem', fontWeight: 700, padding: '3px 10px', borderRadius: '12px', marginBottom: '6px' }}>
-                              @{vid.category}
-                            </div>
-                            <div style={{ color: C.white, fontWeight: 800, fontSize: '1rem', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
-                              {vid.title}
-                            </div>
-                            <div style={{ color: C.offWhite, fontSize: '.82rem', marginTop: '4px', opacity: 0.9 }}>
-                              {vid.subtitle}
-                            </div>
-                          </div>
                         </div>
                       ))}
                     </div>
-                    <div style={{ textAlign: 'center', color: C.gray, fontSize: '.8rem', marginTop: '12px' }}>
-                      ↕ Usa la rueda o desliza sobre el teléfono para ver los 4 principales. Pasa el cursor para reproducir.
+                    <div style={{ textAlign: 'center', color: C.gray, fontSize: '.85rem', marginTop: '16px', fontWeight: 500 }}>
+                      ↕ Desliza hacia arriba o abajo para ver más demostraciones.
                     </div>
                   </div>
                 )}
@@ -916,7 +886,7 @@ export default function CleanNewLanding() {
                 {(showAllVideos || activeVideoCategory !== 'Todos') && (
                   <div className="grid-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px', width: '100%' }}>
                     {visible.map((vid, idx) => (
-                      <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '9/16' }}>
+                      <div key={idx} className="reveal scroll-zoom" style={{ aspectRatio: '16/9' }}>
                         <VideoCard
                           src={vid.src}
                           poster={vid.poster}

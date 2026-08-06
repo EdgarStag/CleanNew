@@ -275,3 +275,12 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 600% 600%;
   animation: gradient-shift 10s ease infinite;
 }
+
+/* Hide scrollbar for UI containers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
