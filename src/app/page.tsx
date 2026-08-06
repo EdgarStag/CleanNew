@@ -833,7 +833,7 @@ export default function CleanNewLanding() {
               { src: '/videos/blindagem-vert-boavista-sofa-branco-160524.mp4', poster: '/images/posters/blindagem-vert-boavista-sofa-branco-160524.jpg', title: 'Blindaje Vert Boavista', subtitle: 'Protección en Sofá Blanco Residencial', category: 'Blindaje Textil' },
               { src: '/videos/blindagem-vert-boavista-sofa-branco-tragedia-160524.mp4', poster: '/images/posters/blindagem-vert-boavista-sofa-branco-tragedia-160524.jpg', title: 'Prueba Antimanchas Extrema', subtitle: 'Resistencia a derrames masivos', category: 'Blindaje Textil' },
               { src: '/videos/blindagem-estofado-branco.mp4', poster: '/images/posters/blindagem-estofado-branco.jpg', title: 'Nanoprotección en Estofado', subtitle: 'Preservación de textura y suavidad', category: 'Blindaje Textil' },
-              { src: '/videos/v3-blindagem.mp4', poster: '/images/posters/v3-blindagem.jpg', title: 'Prueba V3 Nanotecnología', subtitle: 'Prueba de tensión superficial', category: 'Blindaje Textil' },
+
               { src: '/videos/cn-hihienizacao-blindagem-1.mp4', poster: '/images/posters/cn-hihienizacao-blindagem-1.jpg', title: 'Higienización y Sanidad', subtitle: 'Extracción de ácaros y alérgenos', category: 'Higienización' },
               { src: '/videos/fritz-higienizacao-metade-tapete.mp4', poster: '/images/posters/fritz-higienizacao-metade-tapete.jpg', title: 'Prueba Extracción Tapete', subtitle: 'Comparativa de mitad limpia vs sucia', category: 'Higienización' },
               { src: '/videos/fritz-higienizando-sofa-perdido.mp4', poster: '/images/posters/fritz-higienizando-sofa-perdido.jpg', title: 'Restauración Sofá', subtitle: 'Extracción de suciedad profunda', category: 'Higienización' },
